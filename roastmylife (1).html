@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoastMyLife 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire: #FF4500;
+    --fire2: #FF6B35;
+    --dark: #0A0A0A;
+    --darker: #050505;
+    --card: #111111;
+    --card2: #1A1A1A;
+    --text: #F5F5F0;
+    --muted: #888880;
+    --border: rgba(255,69,0,0.2);
+    --glow: 0 0 30px rgba(255,69,0,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* background grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .logo {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .logo span {
+    color: var(--fire);
+    position: relative;
+    display: inline-block;
+    animation: flicker 3s infinite;
+  }
+
+  @keyframes flicker {
+    0%,100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.7; }
+    94% { opacity: 1; }
+    96% { opacity: 0.8; }
+    97% { opacity: 1; }
+  }
+
+  .tagline {
+    margin-top: 12px;
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* CATEGORIES */
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 32px 0 24px;
+  }
+
+  @media(min-width: 500px) {
+    .categories { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .cat-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .cat-btn .icon { font-size: 24px; display: block; margin-bottom: 6px; }
+
+  .cat-btn:hover, .cat-btn.active {
+    border-color: var(--fire);
+    color: var(--text);
+    background: rgba(255,69,0,0.08);
+    box-shadow: var(--glow);
+    transform: translateY(-2px);
+  }
+
+  /* INPUT AREA */
+  .input-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--glow);
+  }
+
+  .input-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    resize: none;
+    min-height: 120px;
+    transition: border-color 0.2s;
+    direction: rtl;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: rgba(255,69,0,0.4);
+  }
+
+  textarea::placeholder { color: #444; }
+
+  /* ROAST BUTTON */
+  .roast-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--fire);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .roast-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.4s;
+  }
+
+  .roast-btn:hover::after { transform: translateX(100%); }
+  .roast-btn:hover { background: var(--fire2); transform: translateY(-1px); box-shadow: 0 8px 25px rgba(255,69,0,0.35); }
+  .roast-btn:active { transform: translateY(0); }
+  .roast-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* RESULT */
+  .result-box {
+    display: none;
+    background: var(--card);
+    border: 1px solid rgba(255,69,0,0.35);
+    border-radius: 16px;
+    padding: 28px 24px;
+    margin-top: 20px;
+    box-shadow: 0 0 40px rgba(255,69,0,0.1);
+    animation: slideUp 0.4s ease;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-box.show { display: block; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .fire-badge {
+    background: var(--fire);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  .roast-text {
+    font-size: 17px;
+    line-height: 1.85;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+
+  .advice-section {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255,69,0,0.06);
+    border-radius: 10px;
+    border-right: 3px solid var(--fire);
+  }
+
+  .advice-label {
+    font-size: 12px;
+    color: var(--fire);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .advice-text {
+    font-size: 15px;
+    color: #ccc;
+    line-height: 1.7;
+  }
+
+  /* SHARE */
+  .share-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 11px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    background: var(--card2);
+    color: var(--muted);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+
+  .share-btn:hover { border-color: var(--fire); color: var(--text); background: rgba(255,69,0,0.08); }
+
+  /* LOADING */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .loading.show { display: block; }
+
+  .flame-loader {
+    display: inline-block;
+    font-size: 36px;
+    animation: burn 0.6s infinite alternate;
+    margin-bottom: 12px;
+  }
+
+  @keyframes burn {
+    from { transform: scale(1) rotate(-5deg); filter: brightness(1); }
+    to   { transform: scale(1.15) rotate(5deg); filter: brightness(1.3); }
+  }
+
+  /* API KEY NOTICE */
+  .api-notice {
+    background: rgba(255,69,0,0.06);
+    border: 1px dashed rgba(255,69,0,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .api-notice strong { color: var(--fire); }
+
+  .api-input {
+    width: 100%;
+    background: var(--card2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    margin-top: 10px;
+    direction: ltr;
+  }
+
+  .api-input:focus { outline: none; border-color: rgba(255,69,0,0.4); }
+
+  /* ERROR */
+  .error-box {
+    display: none;
+    background: rgba(220,50,50,0.08);
+    border: 1px solid rgba(220,50,50,0.3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: #ff8080;
+    font-size: 14px;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .error-box.show { display: block; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #333;
+    font-size: 13px;
+  }
+
+  /* WALL OF FAME */
+  .wof-section { margin-top: 48px; }
+  .section-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .wof-grid { display: flex; flex-direction: column; gap: 12px; }
+
+  .wof-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .wof-card:hover { border-color: rgba(255,69,0,0.4); transform: translateX(-4px); }
+
+  .wof-card .wof-q { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .wof-card .wof-r { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .wof-card .wof-cat { font-size: 11px; color: var(--fire); font-weight: 700; margin-top: 8px; letter-spacing: 0.5px; }
+
+  /* char counter */
+  .char-count { font-size: 12px; color: var(--muted); text-align: left; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Roast<span>My</span>Life 🔥</div>
+    <p class="tagline">شاركنا أي موقف في حياتك — هنروسته بصراحة وبنصحك بجد</p>
+  </header>
+
+  <!-- API KEY -->
+  <div class="api-notice">
+    <strong>🔑 مفتاح Groq:</strong> مجاني 100% —
+    <a href="https://console.groq.com/keys" target="_blank" style="color:var(--fire)">احصل عليه من هنا</a> (بحساب Gmail عادي)
+    <input class="api-input" type="password" id="apiKey" placeholder="gsk_..." />
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="categories">
+    <button class="cat-btn active" data-cat="career" onclick="selectCat(this)">
+      <span class="icon">💼</span> شغل وكاريير
+    </button>
+    <button class="cat-btn" data-cat="relationship" onclick="selectCat(this)">
+      <span class="icon">❤️</span> علاقات
+    </button>
+    <button class="cat-btn" data-cat="cv" onclick="selectCat(this)">
+      <span class="icon">📄</span> CV بتاعك
+    </button>
+    <button class="cat-btn" data-cat="decision" onclick="selectCat(this)">
+      <span class="icon">🤔</span> قرار اتخذته
+    </button>
+  </div>
+
+  <!-- INPUT -->
+  <div class="input-section">
+    <label class="input-label" id="inputLabel">احكيلنا عن شغلك أو مشكلتك في الكاريير...</label>
+    <textarea id="userInput" placeholder="مثلاً: اشتغلت 3 سنين في شغل بكره، ومش عارف أسيبه..." maxlength="800"></textarea>
+    <div class="char-count"><span id="charCount">0</span>/800</div>
+  </div>
+
+  <button class="roast-btn" id="roastBtn" onclick="doRoast()">🔥 روست حياتي دلوقتي!</button>
+
+  <!-- LOADING -->
+  <div class="loading" id="loading">
+    <div class="flame-loader">🔥</div>
+    <p>بيفكر في أشرس روست ممكن...</p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- RESULT -->
+  <div class="result-box" id="resultBox">
+    <div class="result-header">
+      <span class="fire-badge">🔥 ROASTED</span>
+      <span style="font-size:13px; color:var(--muted)" id="catLabel">شغل وكاريير</span>
+    </div>
+    <div class="roast-text" id="roastText"></div>
+    <div class="advice-section">
+      <div class="advice-label">💡 النصيحة الجادة</div>
+      <div class="advice-text" id="adviceText"></div>
+    </div>
+    <div class="share-row">
+      <button class="share-btn" onclick="copyRoast()">📋 نسخ الروست</button>
+      <button class="share-btn" onclick="shareTwitter()">🐦 شارك على Twitter</button>
+      <button class="share-btn" onclick="tryAgain()">🔄 روست تاني</button>
+    </div>
+  </div>
+
+  <!-- WALL OF FAME -->
+  <div class="wof-section">
+    <div class="section-title">🏆 Wall of Roasts</div>
+    <div class="wof-grid" id="wofGrid">
+      <div class="wof-card">
+        <div class="wof-q">"اشتغلت 3 سنين في شغل بكره وما قدرتش أسيبه"</div>
+        <div class="wof-r">🔥 3 سنين؟ ده مش شغل، ده زواج فاشل بدون طلاق رسمي — الجسم بيتعلم يكره الأحد بدلاً من إنه يغير حاجة.</div>
+        <div class="wof-cat">💼 شغل وكاريير</div>
+      </div>
+      <div class="wof-card">
+        <div class="wof-q">"خلصت الجامعة وأنا لسه مش عارف أعمل إيه"</div>
+        <div class="wof-r">🔥 4 سنين دراسة ولسه "مش عارف" — يعني الشهادة جاية قبل الخريطة، زي ما تطبع الكتاب قبل ما تكتبه!</div>
+        <div class="wof-cat">🎓 تعليم</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>RoastMyLife — made with 🔥 by a 4th year IT student</footer>
+
+<script>
+let selectedCat = 'career';
+const placeholders = {
+  career: 'احكيلنا عن شغلك أو مشكلتك في الكاريير...\nمثلاً: اشتغلت 3 سنين في شغل بكره، ومش عارف أسيبه...',
+  relationship: 'احكيلنا عن علاقتك أو موقف حصل معاك...\nمثلاً: بحب شخص من سنتين وما قلتلوش...',
+  cv: 'الصق CV بتاعك أو احكيلنا عن خبراتك...\nمثلاً: خريج IT، عندي شهادات، بس ما اتوظفتش لسه...',
+  decision: 'احكيلنا عن قرار اتخذته أو بتفكر فيه...\nمثلاً: تركت الجامعة وبفكر أرجع...'
+};
+const labels = {
+  career: 'احكيلنا عن شغلك أو مشكلتك في الكاريير...',
+  relationship: 'احكيلنا عن علاقتك أو موقف حصل معاك...',
+  cv: 'الصق CV بتاعك أو احكيلنا عن خبراتك...',
+  decision: 'احكيلنا عن قرار اتخذته أو بتفكر فيه...'
+};
+const catNames = {
+  career: '💼 شغل وكاريير',
+  relationship: '❤️ علاقات',
+  cv: '📄 CV',
+  decision: '🤔 قرار'
+};
+
+const systemPrompts = {
+  career: `أنت "RoastMyLife" — روبوت بيعمل نقد كوميدي وصادق للمواقف بالعربي.
+المستخدم هيحكيلك عن موقف في شغله أو كاريره.
+اعمل: 
+1. روست كوميدي مضحك لكن مش مؤلم — جملتين أو ثلاثة. استخدم تشبيهات ذكية.
+2. نصيحة عملية وجادة في آخر رد.
+رد في الفورمات ده بالظبط:
+ROAST: [الروست الكوميدي]
+ADVICE: [النصيحة الجادة]
+لازم تبقى باللغة العربية العامية المصرية.`,
+  relationship: `أنت "RoastMyLife" — روبوت بيعمل نقد كوميدي وصادق للمواقف بالعربي.
+المستخدم هيحكيلك عن موقف في علاقاته.
+اعمل:
+1. روست كوميدي مضحك — جملتين أو ثلاثة. استخدم تشبيهات ذكية.
+2. نصيحة عملية وجادة.
+رد في الفورمات ده بالظبط:
+ROAST: [الروست الكوميدي]
+ADVICE: [النصيحة الجادة]
+لازم تبقى باللغة العربية العامية المصرية.`,
+  cv: `أنت "RoastMyLife" — روبوت بيعمل نقد كوميدي وصادق للمواقف بالعربي.
+المستخدم هيبعتلك CV أو يحكيلك عن خبراته.
+اعمل:
+1. روست كوميدي وصادق للـ CV — جملتين أو ثلاثة.
+2. نصيحة عملية تساعده يحسن CV بتاعه.
+رد في الفورمات ده بالظبط:
+ROAST: [الروست الكوميدي]
+ADVICE: [النصيحة الجادة]
+لازم تبقى باللغة العربية العامية المصرية.`,
+  decision: `أنت "RoastMyLife" — روبوت بيعمل نقد كوميدي وصادق للمواقف بالعربي.
+المستخدم هيحكيلك عن قرار اتخذه أو بيفكر فيه.
+اعمل:
+1. روست كوميدي للقرار — جملتين أو ثلاثة.
+2. نصيحة عملية تساعده يفكر صح.
+رد في الفورمات ده بالظبط:
+ROAST: [الروست الكوميدي]
+ADVICE: [النصيحة الجادة]
+لازم تبقى باللغة العربية العامية المصرية.`
+};
+
+function selectCat(btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedCat = btn.dataset.cat;
+  document.getElementById('inputLabel').textContent = labels[selectedCat];
+  document.getElementById('userInput').placeholder = placeholders[selectedCat];
+}
+
+document.getElementById('userInput').addEventListener('input', function() {
+  document.getElementById('charCount').textContent = this.value.length;
+});
+
+async function doRoast() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const userText = document.getElementById('userInput').value.trim();
+  const errorBox = document.getElementById('errorBox');
+
+  errorBox.className = 'error-box';
+
+  if (!apiKey) { showError('⚠️ أدخل Groq API Key الأول — مجاني من console.groq.com/keys'); return; }
+  if (!userText || userText.length < 10) { showError('⚠️ احكيلنا أكتر شوية عشان نقدر نروستك كويس 😄'); return; }
+
+  setLoading(true);
+  document.getElementById('resultBox').className = 'result-box';
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 600,
+        messages: [
+          { role: 'system', content: systemPrompts[selectedCat] },
+          { role: 'user', content: userText }
+        ]
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'حصل error في الـ API');
+    }
+
+    const data = await res.json();
+    const fullText = data.choices[0].message.content;
+
+    const roastMatch = fullText.match(/ROAST:\s*([\s\S]*?)(?=ADVICE:|$)/i);
+    const adviceMatch = fullText.match(/ADVICE:\s*([\s\S]*)/i);
+
+    const roastPart = roastMatch ? roastMatch[1].trim() : fullText;
+    const advicePart = adviceMatch ? adviceMatch[1].trim() : '';
+
+    document.getElementById('roastText').textContent = '🔥 ' + roastPart;
+    document.getElementById('adviceText').textContent = advicePart || 'خد نفس وفكر في الخطوة الجاية بهدوء.';
+    document.getElementById('catLabel').textContent = catNames[selectedCat];
+    document.getElementById('resultBox').className = 'result-box show';
+
+    // add to wall of fame
+    addToWOF(userText, roastPart);
+
+  } catch(e) {
+    showError('❌ ' + (e.message || 'حصل مشكلة، حاول تاني'));
+  } finally {
+    setLoading(false);
+  }
+}
+
+function addToWOF(q, r) {
+  const grid = document.getElementById('wofGrid');
+  const card = document.createElement('div');
+  card.className = 'wof-card';
+  card.style.borderColor = 'rgba(255,69,0,0.4)';
+  const shortQ = q.length > 80 ? q.slice(0, 80) + '...' : q;
+  const shortR = r.length > 120 ? r.slice(0, 120) + '...' : r;
+  card.innerHTML = `<div class="wof-q">"${shortQ}"</div>
+    <div class="wof-r">🔥 ${shortR}</div>
+    <div class="wof-cat">${catNames[selectedCat]} · الآن</div>`;
+  grid.insertBefore(card, grid.firstChild);
+}
+
+function setLoading(on) {
+  document.getElementById('loading').className = on ? 'loading show' : 'loading';
+  document.getElementById('roastBtn').disabled = on;
+  document.getElementById('roastBtn').textContent = on ? '⏳ جاري الروست...' : '🔥 روست حياتي دلوقتي!';
+}
+
+function showError(msg) {
+  const e = document.getElementById('errorBox');
+  e.textContent = msg;
+  e.className = 'error-box show';
+}
+
+function copyRoast() {
+  const text = document.getElementById('roastText').textContent + '\n\n' + document.getElementById('adviceText').textContent + '\n\n— RoastMyLife 🔥';
+  navigator.clipboard.writeText(text).then(() => alert('✅ اتنسخ! شاركه مع صحابك 😂'));
+}
+
+function shareTwitter() {
+  const text = document.getElementById('roastText').textContent.slice(0, 200);
+  const url = encodeURIComponent('https://roastmylife.app');
+  const tweet = encodeURIComponent(text + '\n\nجربوا RoastMyLife 🔥 ' + url);
+  window.open('https://twitter.com/intent/tweet?text=' + tweet, '_blank');
+}
+
+function tryAgain() {
+  document.getElementById('resultBox').className = 'result-box';
+  document.getElementById('userInput').value = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('userInput').focus();
+}
+</script>
+</body>
+</html>
